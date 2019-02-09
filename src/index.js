@@ -12,8 +12,11 @@
 
  Другими словами: функция должна возвращать в неизменном виде то, что поступает ей на вход
  */
-function returnFirstArgument() {
+
+function returnFirstArgument(props) {
+  return props;
 }
+
 
 /*
  Задание 2:
@@ -29,7 +32,8 @@ function returnFirstArgument() {
  Пример:
    sumWithDefaults(10) вернет 110
  */
-function sumWithDefaults(a, b) {
+function sumWithDefaults(a, b = 100) {
+  return a + b;
 }
 
 /*
@@ -41,6 +45,7 @@ function sumWithDefaults(a, b) {
    returnFnResult(() => 'привет') вернет 'привет'
  */
 function returnFnResult(fn) {
+  return fn();
 }
 
 /*
@@ -56,7 +61,28 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter(number) {
+function returnCounter(number = 0) {
+  return function fn() {
+    return ++number;
+  }
+
+
+  ////////////////////////////////////////////
+  // vers 3 = DONT WORK
+  // function f() {
+  //   number++;
+  // }
+  // return f;
+  ////////////////////////////////////////////
+  // vers 2 = DONT WORK
+  // var result = (() => number + 1);
+  // return result;
+  ///////////////////////////////////////////
+  // vers 1 = DONT WORK
+  // var result = function f() {
+  //   return number = number++;
+  // }
+  // return result;
 }
 
 /*
@@ -69,31 +95,60 @@ function returnCounter(number) {
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
 function returnArgumentsArray() {
+  var result = [];
+  for (var i = 0; i < arguments.length; i++) {
+    result[i] = arguments[i];
+  }
+  return result;
 }
 
 /*
  Задание 6 *:
-
+ 
  Функция должна принимать другую функцию (F) и некоторое количество дополнительных аргументов
  Функция должна привязать переданные аргументы к функции F и вернуть получившуюся функцию
-
+ 
  Пример:
    function sum(a, b) {
      return a + b;
    }
-
+ 
    var newSum = bindFunction(sum, 2, 4);
-
+ 
    console.log(newSum()) выведет 6
  */
 function bindFunction(fn) {
+  // DONT WORK
+  // fn = fn.bind(null, ...arguments);
+  // return fn;
+
+  // fn.bind(null, [...arguments].slice(1));
+  // return fn;
+
+  var selfArguments = arguments.shift;
+  return fn.bind(null, selfArguments);
+
+  // fn = fn.bind(null, arguments);
+  // return fn;
+
+  /////// WHY DONT WORK?
+  // var argumentsArr = [];
+  // for (var i = 0; i < arguments.length; i++) {
+  //   argumentsArr.push(arguments[i])
+  // }
+
+  // return function () {
+  //   return fn.apply(null, argArr);
+  // }
+
+
 }
 
 export {
-    returnFirstArgument,
-    sumWithDefaults,
-    returnArgumentsArray,
-    returnFnResult,
-    returnCounter,
-    bindFunction
+  returnFirstArgument,
+  sumWithDefaults,
+  returnArgumentsArray,
+  returnFnResult,
+  returnCounter,
+  bindFunction
 }
