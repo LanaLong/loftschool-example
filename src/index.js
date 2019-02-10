@@ -14,7 +14,7 @@
  */
 
 function returnFirstArgument(props) {
-  return props;
+    return props;
 }
 
 /*
@@ -32,7 +32,7 @@ function returnFirstArgument(props) {
    sumWithDefaults(10) вернет 110
  */
 function sumWithDefaults(a, b = 100) {
-  return a + b;
+    return a + b;
 }
 
 /*
@@ -44,7 +44,7 @@ function sumWithDefaults(a, b = 100) {
    returnFnResult(() => 'привет') вернет 'привет'
  */
 function returnFnResult(fn) {
-  return fn();
+    return fn();
 }
 
 /*
@@ -61,9 +61,9 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 13
  */
 function returnCounter(number = 0) {
-  return function fn() {
-    return ++number;
-  }
+    return function fn() {
+        return ++number;
+    }
 }
 
 /*
@@ -76,13 +76,13 @@ function returnCounter(number = 0) {
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
 function returnArgumentsArray() {
-  var result = [];
+    var result = [];
 
-  for (var i = 0; i < arguments.length; i++) {
-    result[i] = arguments[i];
-  }
+    for (var i = 0; i < arguments.length; i++) {
+        result[i] = arguments[i];
+    }
 
-  return result;
+    return result;
 }
 
 /*
@@ -101,20 +101,20 @@ function returnArgumentsArray() {
    console.log(newSum()) выведет 6
  */
 function bindFunction(fn) {
-  var newArguments = [];
+    var newArguments = [];
 
-  for (let i = 1; i < arguments.length; i++) {
-    newArguments[i - 1] = arguments[i];
-  }
+    for (let i = 1; i < arguments.length; i++) {
+        newArguments[i - 1] = arguments[i];
+    }
 
-  return fn.bind(null, ...newArguments);
+    return fn.bind(null, ...newArguments);
 }
 
 export {
-  returnFirstArgument,
-  sumWithDefaults,
-  returnArgumentsArray,
-  returnFnResult,
-  returnCounter,
-  bindFunction
+    returnFirstArgument,
+    sumWithDefaults,
+    returnArgumentsArray,
+    returnFnResult,
+    returnCounter,
+    bindFunction
 }
