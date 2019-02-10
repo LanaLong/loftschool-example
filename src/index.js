@@ -17,7 +17,6 @@ function returnFirstArgument(props) {
   return props;
 }
 
-
 /*
  Задание 2:
 
@@ -78,9 +77,11 @@ function returnCounter(number = 0) {
  */
 function returnArgumentsArray() {
   var result = [];
+
   for (var i = 0; i < arguments.length; i++) {
     result[i] = arguments[i];
   }
+
   return result;
 }
 
@@ -101,13 +102,13 @@ function returnArgumentsArray() {
  */
 function bindFunction(fn) {
   var newArguments = [];
+
   for (let i = 1; i < arguments.length; i++) {
     newArguments[i - 1] = arguments[i];
   }
 
   return fn.bind(null, ...newArguments);
 }
-
 
 export {
   returnFirstArgument,
