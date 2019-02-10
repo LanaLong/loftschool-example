@@ -65,24 +65,6 @@ function returnCounter(number = 0) {
   return function fn() {
     return ++number;
   }
-
-
-  ////////////////////////////////////////////
-  // vers 3 = DONT WORK
-  // function f() {
-  //   number++;
-  // }
-  // return f;
-  ////////////////////////////////////////////
-  // vers 2 = DONT WORK
-  // var result = (() => number + 1);
-  // return result;
-  ///////////////////////////////////////////
-  // vers 1 = DONT WORK
-  // var result = function f() {
-  //   return number = number++;
-  // }
-  // return result;
 }
 
 /*
@@ -118,31 +100,14 @@ function returnArgumentsArray() {
    console.log(newSum()) выведет 6
  */
 function bindFunction(fn) {
-  // DONT WORK
-  // fn = fn.bind(null, ...arguments);
-  // return fn;
+  var newArguments = [];
+  for (let i = 1; i < arguments.length; i++) {
+    newArguments[i - 1] = arguments[i];
+  }
 
-  // fn.bind(null, [...arguments].slice(1));
-  // return fn;
-
-  var selfArguments = arguments.shift;
-  return fn.bind(null, selfArguments);
-
-  // fn = fn.bind(null, arguments);
-  // return fn;
-
-  /////// WHY DONT WORK?
-  // var argumentsArr = [];
-  // for (var i = 0; i < arguments.length; i++) {
-  //   argumentsArr.push(arguments[i])
-  // }
-
-  // return function () {
-  //   return fn.apply(null, argArr);
-  // }
-
-
+  return fn.bind(null, ...newArguments);
 }
+
 
 export {
   returnFirstArgument,
