@@ -17,12 +17,42 @@
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
 function isAllTrue(array, fn) {
+    var successCount = 0;
+    var failedCount = 0;
+
+  if (!Array.isArray(array) || array.length <= 0) {
+        throw new Error("empty array");
+        } 
+    if (typeof fn != 'function') {
+        throw new Error("fn is not a function");
+        } else {
+            for (var i = 0; i < array.length; i++) {
+                if (fn(array[i]) == false) {
+                    return false;
+                }
+        
+
+                /*      if (filterResult == false) {
+                  failedCount++;
+                } 
+              if (filterResult == true) {
+                  successCount++;
+                }
+              if (array.length == successCount) {
+        return true;
+      } else if (failedCount > 0) {
+        return false;
+      }*/
+    }
+
+    return true;
+  }
 }
 
 /*
  Задание 2:
 
- 2.1: Функция принимает массив и фильтрующую фукнцию и должна вернуть true или false
+ 2.1: Функция принимает массив и фильтрующую функцию и должна вернуть true или false
  Функция должна вернуть true если fn вернула true хотя бы для одного из элементов массива
 
  2.2: Необходимо выбрасывать исключение в случаях:
@@ -36,6 +66,34 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+
+  var x = 0;
+
+  if ((array == 0) || (array.length <= 0)) {
+    throw new Error("empty array");
+  } else if (typeof fn != 'function') {
+    throw new Error("fn is not a function");
+  } 
+  // else if ( !array.isArray ) {
+  //   throw new Error("it is not an array");
+  // } 
+  
+  else {
+
+    for (var i = 0; i < array.length; i++) {
+      var z = fn(array[i]);
+      if (z == true) {
+        x++;
+      }
+    }
+
+    if (x < 1) {
+      return false;
+    } else (x >= 1)
+    {
+      return true;
+    }
+  }
 }
 
 /*
@@ -50,7 +108,21 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+  var x = new Array();
+  var z = '';
+  if (typeof fn != 'function') {
+    throw new Error("fn is not a function");
+  }
+  for (var i = 1; i < arguments.length; i++) {
+    try {
+      z = fn(arguments[i]);
+    } catch (e) {
+      x.push(arguments[i]);
+    }
+  }
+  return x;
 }
+
 
 /*
  Задание 4:
@@ -69,8 +141,53 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number = 0) {
+
+  if (typeof number != 'number') {
+    throw new Error("number is not a number");
+  }
+
+  var calcFerma = {
+    sum: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] === 0) {
+          throw new Error("division by 0");
+        }
+        number += arguments[i];
+      }
+      return number;
+    },
+    dif: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] === 0) {
+          throw new Error("division by 0");
+        }
+        number -= arguments[i];
+      }
+      return number;
+    },
+    div: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] === 0) {
+          throw new Error("division by 0");
+        }
+        number /= arguments[i];
+      }
+      return number;
+    },
+    mul: function () {
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] === 0) {
+          throw new Error("division by 0");
+        }
+        number *= arguments[i];
+      }
+      return number;
+    }
+  }
+  return calcFerma;
 }
+
 
 /* При решении задач, пострайтесь использовать отладчик */
 
