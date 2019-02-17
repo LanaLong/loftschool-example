@@ -21,8 +21,10 @@ function isAllTrue(array, fn) {
     if (!Array.isArray(array) || array.length <= 0) {
         throw new Error('empty array');
     } 
+
     if (typeof fn != 'function') {
         throw new Error('fn is not a function');
+
     } else {
         for (var i = 0; i < array.length; i++) {
             if (fn(array[i]) == false) {
@@ -51,28 +53,22 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
-    var filerItem = 0;
 
     if (!Array.isArray(array) || (array.length <= 0)) {
         throw new Error('empty array');
+
     } else if (typeof fn != 'function') {
         throw new Error('fn is not a function');
+
     } else {
         for (var i = 0; i < array.length; i++) {
-            var filterResult = fn(array[i]);
 
-            if (filterResult == true) {
-                filerItem++;
+            if (fn(array[i]) == true) {
+                return true;
             }
         }
 
-        if (filerItem < 1) {
-            return false;
-        } else (filerItem >= 1)
-        {
-          
-            return true;
-        }
+        return false;
     }
 }
 
@@ -129,9 +125,6 @@ function calculator(number = 0) {
     var calcFerma = {
         sum: function () {
             for (var i = 0; i < arguments.length; i++) {
-                if (arguments[i] === 0) {
-                    throw new Error('division by 0');
-                }
                 number += arguments[i];
             }
 
@@ -140,9 +133,6 @@ function calculator(number = 0) {
 
         dif: function () {
             for (var i = 0; i < arguments.length; i++) {
-                if (arguments[i] === 0) {
-                    throw new Error('division by 0');
-                }
                 number -= arguments[i];
             }
 
@@ -162,9 +152,6 @@ function calculator(number = 0) {
 
         mul: function () {
             for (var i = 0; i < arguments.length; i++) {
-                if (arguments[i] === 0) {
-                    throw new Error('division by 0');
-                }
                 number *= arguments[i];
             }
 
