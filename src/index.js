@@ -18,7 +18,7 @@
  */
 function isAllTrue(array, fn) {
 
-    if (!Array.isArray(array) || array.length <= 0) {
+    if (array instanceof Array || array.length <= 0) {
         throw new Error('empty array');
     } 
 
