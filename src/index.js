@@ -21,7 +21,7 @@ function createDivWithText(text) {
 /*
  Задание 2:
 
- Функция должна вставлять элемент, переданный в переметре what в начало элемента, переданного в параметре where
+ Функция должна вставлять элемент, переданный в пaреметре what в начало элемента, переданного в параметре where
 
  Пример:
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
@@ -50,6 +50,16 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+    var result = [],
+    whereChildren = where.children;
+
+    for ( var i = 0; i < whereChildren.length - 1; i++ ) {
+      if (whereChildren[i].nextElementSibling.nodeName === ('P')) {
+        result.push(whereChildren[i]);
+      }
+    }
+
+    return result;
 }
 
 /*
@@ -72,7 +82,7 @@ function findAllPSiblings(where) {
 function findError(where) {
     var result = [];
 
-    for (var child of where.childNodes) {
+    for (var child of where.children) {
         result.push(child.innerText);
     }
 
