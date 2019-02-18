@@ -1,3 +1,5 @@
+import { node } from "prop-types";
+
 /* ДЗ 4 - работа с DOM */
 
 /*
@@ -157,7 +159,60 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
+    let nodes = root.childNodes,
+        countTags = 0,
+        countTexts = 0,
+        countClasses = 0;
+  
+    for ( let i = 0; i < nodes.length - 1; i++ ) {
+        let statObject = {
+            tags: 0,
+            classes: 0,
+            text: 0
+        };
+
+        if (nodes[i].typeNode === 1) {
+            countTags++;
+            statObject.tags = countTags;
+        } else if (nodes[i].typeNode === 3) {
+            countTexts++;
+            statObject.text = countTexts;
+        }
+        // else if ( nodes[i].hasAttribute('class') ) {
+        //      let rootClassList = [];
+        //      rootClassList.push(node[i].className); 
+        //          for ( let i = 0; i <rootClassList - 1; i++ ) {
+        //              одинаковые посчитать ...
+        //          }
+        // }
+        // classList.className ... )
+        // пройтись в цикле по детям как выше и тех, у кого есть атрибут class
+        // собрать в масссив имен классов
+        // проитись по массиву имен классов =>
+        // если есть одинаковые - посчитать
+        // другие одинаковые - посчитать
+        // как это сделать?
+
+    }
+
+
+    return statObject;
+
 }
+
+/*
+el.classList =
+{
+    length: number,
+    add: function() {},
+    contains: function() {},
+    item: function() {},
+    remove: function() {},
+    toggle: function() {}
+}
+
+*/
+
 
 /*
  Задание 8 *:
