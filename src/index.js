@@ -95,21 +95,48 @@ function findError(where) {
  Функция должна перебрать все дочерние узлы элемента переданного в параметре where и удалить из него все текстовые узлы
 
  Задачу необходимо решить без использования рекурсии, то есть можно не уходить вглубь дерева.
- Так же будьте внимательны при удалении узлов, т.к. можно получить неожиданное поведение при переборе узлов
+ Так же будьте внимательны при удалении узлов, т.к. можно получить неожиданное поведение при их переборе.
 
  Пример:
    После выполнения функции, дерево <div></div>привет<p></p>loftchool!!!
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+    var whereChildren = where.childNodes;
+
+    for ( var i = 0; i < whereChildren.length; i++ ) {
+      if (whereChildren[i].nodeType === 3) {
+        whereChildren[i].parentNode.removeChild(whereChildren[i]);
+    }
+  }
 }
+
+// function deleteTextNodes(where) {
+//     var whereChildren = where.children;
+
+//     for ( i = 0; i < whereChildren.length - 1; i++ ) {
+//       if (whereChildren[i].firstChild.nodeType === Node.TEXT_NODE) {
+//           whereChildren.parentNode.removeChild(whereChildren[i]);
+//       }
+//     }
+// }
+
+// function deleteTextNodes(where) {
+//   var whereChildren = where.children;
+
+//   for (i = 0; i < whereChildren.length - 1; i++) {
+//     if (whereChildren[i].firstChild.nodeType === Node.TEXT_NODE) {
+//       var emptyTree = where.removeChild(whereChildren[i]);
+//     }
+//   }
+//   return emptyTree;
+// }
 
 /*
  Задание 6:
 
- Выполнить предудыщее задание с использование рекурсии - то есть необходимо заходить внутрь каждого дочернего элемента (углубляться в дерево)
+ Выполнить предыдущее задание с использование рекурсии - то есть необходимо заходить внутрь каждого дочернего элемента (углубляться в дерево)
 
- Задачу необходимо решить без использования рекурсии, то есть можно не уходить вглубь дерева.
  Так же будьте внимательны при удалении узлов, т.к. можно получить неожиданное поведение при переборе узлов
 
  Пример:
