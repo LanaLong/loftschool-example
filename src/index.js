@@ -158,74 +158,39 @@ function deleteTextNodesRecursive(where) {
      texts: 3
    }
  */
-let statObject = {
-  tags: {},
-  classes: {},
-  text: 0
-};
-
 function collectDOMStat(root) {
-    let nodes = root.childNodes,
-        countTags = 0,
-        countTexts = 0,
-        countClasses = 0;
-  
-    for ( let i = 0; i < nodes.length; i++ ) {
-        
+    let nodes = root.childNodes;
 
-        if (nodes[i].typeNode === 1) {
-            if (typeof statObject.tags[node[i].tagName] === 'undefined') {
-              statObject.tags[node[i].tagName] = 0;
-            }
-            statObject.tags[node[i].tagName]++;
-        } else if (nodes[i].typeNode === 3) {
-            statObject.text++;
+    let statObject = {
+      tags: {},
+      classes: {},
+      texts: 0
+    };
+
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i].typeNode === 1) {
+        if (typeof statObject.tags[node[i].tagName] === 'undefined') {
+          statObject.tags[node[i].tagName] = 0;
         }
-        else if ( nodes[i].hasAttribute('class') ) {
-             for (let j = 0; j < nodes[i].classList.length; j++)
-             {
-                //Нужно понять как обойти classList элемента и взять все названия классов в виде строк
-                if (typeof statObject.classes[nodes[i].classList[j]] === 'undefined') {
-                  statObject.classes[nodes[i].classList[j]] = 0;
-                }
-                statObject.classes[nodes[i].classList[j]]++;
-             }
+        statObject.tags[node[i].tagName]++;
+      }
+
+      if (nodes[i].typeNode === 3) {
+        statObject.texts++;
+      }
+
+      if (nodes[i].hasAttribute('class')) {
+        for (let j = 0; j < nodes[i].classList.length; j++) {
+          statObject.classes[nodes[i].className[j]]++;
         }
 
-
-        // classList.className ... )
-        // пройтись в цикле по детям как выше и тех, у кого есть атрибут class
-        // собрать в масссив имен классов
-        // проитись по массиву имен классов =>
-        // если есть одинаковые - посчитать
-        // другие одинаковые - посчитать
-        // как это сделать?
-
-        if (nodes[i].childNodes.length != 0)
-        {
+        if (nodes[i].childNodes.length != 0) {
           collectDOMStat(nodes[i]);
         }
-
+      }
+      return statObject;
     }
-
-
-    return statObject;
-
 }
-
-/*
-el.classList =
-{
-    length: number,
-    add: function() {},
-    contains: function() {},
-    item: function() {},
-    remove: function() {},
-    toggle: function() {}
-}
-
-*/
-
 
 /*
  Задание 8 *:
