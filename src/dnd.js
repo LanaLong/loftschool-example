@@ -30,16 +30,16 @@ function createDiv() {
     var newDiv = document.createElement('div');
     var divsize = ((Math.random() * 100) + 50).toFixed();
     var color = '#' + Math.round(0xffffff * Math.random()).toString(16);
-    var posx = (Math.random() * ($(document).width() - divsize)).toFixed();
-    var posy = (Math.random() * ($(document).height() - divsize)).toFixed();
+  var posx = (Math.random() * (document.body.clientWidth - divsize)).toFixed();
+  var posy = (Math.random() * (document.body.clientHeight - divsize)).toFixed();
 
     newDiv.style.width = divsize + 'px';
     newDiv.style.height = divsize + 'px';
     newDiv.style.backgroundColor = color;
     newDiv.style.top = posx + 'px';
     newDiv.style.left = posy + 'px';
-    newDiv.className = "draggable-div";
-    newDiv.setProperty = ("draggable", true);
+    newDiv.className = 'draggable-div';
+    newDiv.setProperty = ('draggable', true);
 
     return newDiv;
 }
@@ -60,12 +60,12 @@ function addListeners(target) {
     target.addEventListener('drop', handleDrop, false);
     target.addEventListener('dragend', handleDragEnd, false );
 
-    var dragSrcElement = null;
+    // var dragSrcElement = null;
 
     function handleDragStart(e) {
         e.target.style.opacity = '0.4';
 
-        dragSrcElement = this;
+        // dragSrcElement = e.target;
 
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.dropEffect = 'move';
@@ -77,7 +77,7 @@ function addListeners(target) {
     }
 
     function handleDragOver(e) {
-        e.target.style.backgroundImage = "url('http://source.unsplash.com/random/100x100')";
+        e.target.style.backgroundImage = 'url(\'http://source.unsplash.com/random/100x100\')';
     }
 
     function handleDragLeave(e) {
@@ -85,16 +85,16 @@ function addListeners(target) {
     }
 
     function handleDrop(e) {
-       if (e.stopPropagation) {
-          e.stopPropagation()
-       }
+        if (e.stopPropagation) {
+            e.stopPropagation()
+        }
 
-       if (dragSrcElement != this) {
-          dragSrcElement.innerHTML = this.innerHTML;
-          this.dataTransfer.getData('text/html');
-       }
+        // if (dragSrcElement != this) {
+        //     dragSrcElement.innerHTML = this.innerHTML;
+        //     this.dataTransfer.getData('text/html');
+        // }
 
-          return false;
+        return false;
     }
 
     function handleDragEnd(e) {
