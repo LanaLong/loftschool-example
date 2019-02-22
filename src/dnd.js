@@ -19,7 +19,7 @@ const homeworkContainer = document.querySelector('#homework-container');
 
 /*
  Функция должна создавать и возвращать новый div с классом draggable-div и случайными размерами/цветом/позицией
- Функция должна только создавать элемент и задвать ему случайные размер/позицию/цвет
+ Функция должна только создавать элемент и задaвать ему случайные размер/позицию/цвет
  Функция НЕ должна добавлять элемент на страницу. На страницу элемент добавляется отдельно
 
  Пример:
@@ -27,6 +27,21 @@ const homeworkContainer = document.querySelector('#homework-container');
    homeworkContainer.appendChild(newDiv);
  */
 function createDiv() {
+    var newDiv = document.createElement('div');
+    var divsize = ((Math.random() * 100) + 50).toFixed();
+    var color = '#' + Math.round(0xffffff * Math.random()).toString(16);
+    var posx = (Math.random() * ($(document).width() - divsize)).toFixed();
+    var posy = (Math.random() * ($(document).height() - divsize)).toFixed();
+
+    newDiv.style.width = divsize + 'px';
+    newDiv.style.height = divsize + 'px';
+    newDiv.style.backgroundColor = color;
+    newDiv.style.top = posx + 'px';
+    newDiv.style.left = posy + 'px';
+    newDiv.className = "draggable-div";
+    newDiv.setProperty = ("draggable", true);
+
+    return newDiv;
 }
 
 /*
@@ -38,6 +53,53 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+    target.addEventListener('dragstart', handleDragStart, false );
+    target.addEventListener('dragenter', handleDragEnter, false)
+    target.addEventListener('dragover', handleDragOver, false);
+    target.addEventListener('dragleave', handleDragLeave, false);
+    target.addEventListener('drop', handleDrop, false);
+    target.addEventListener('dragend', handleDragEnd, false );
+
+    var dragSrcElement = null;
+
+    function handleDragStart(e) {
+        e.target.style.opacity = '0.4';
+
+        dragSrcElement = this;
+
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.dropEffect = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    
+    function handleDragEnter(e) {
+        e.target.style.opacity = '0.1';
+    }
+
+    function handleDragOver(e) {
+        e.target.style.backgroundImage = "url('http://source.unsplash.com/random/100x100')";
+    }
+
+    function handleDragLeave(e) {
+        e.target.style.opacity = '0.1';
+    }
+
+    function handleDrop(e) {
+       if (e.stopPropagation) {
+          e.stopPropagation()
+       }
+
+       if (dragSrcElement != this) {
+          dragSrcElement.innerHTML = this.innerHTML;
+          this.dataTransfer.getData('text/html');
+       }
+
+          return false;
+    }
+
+    function handleDragEnd(e) {
+        e.target.style.opacity = '1';
+    }
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
