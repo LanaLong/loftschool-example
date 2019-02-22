@@ -33,7 +33,7 @@ function removeListener(eventName, target, fn) {
    skipDefault('click', document.querySelector('a')) // после вызова функции, клики на указанную ссылку не должны приводить к переходу на другую страницу
  */
 function skipDefault(eventName, target) {
-  target.addEventListener(eventName, (eventName) => {
+    target.addEventListener(eventName, (eventName) => {
         eventName.preventDefault();
     });
 }
@@ -61,28 +61,13 @@ function emulateClick(target) {
  Пример:
    delegate(document.body, () => console.log('кликнули на button')) // добавит такой обработчик кликов для body, который будет вызывать указанную функцию только если кликнули на кнопку (элемент с тегом button)
  */
-// function delegate(target, fn) {
-//     let elements = target.chilren;
-
-//     for ( let i = 0; i < elements.length; i++ ) {
-//         if (elements[i] === 'BUTTON') {
-//             var isButton = elements[i];
-//       }
-//     }
-
-//     target.addEventListener('click', () => {
-//         if (isButton) {
-//             fn();
-//         }
-//     })
-// }
 
 function delegate(target, fn) {
-  target.addEventListener('click', (e) => {
-    if (e.target.tagName == 'BUTTON') {
-      fn();
-    }
-  })
+    target.addEventListener('click', (e) => {
+        if (e.target.tagName == 'BUTTON') {
+            fn();
+        }
+    })
 }
 
 /*
@@ -94,13 +79,14 @@ function delegate(target, fn) {
  Пример:
    once(document.querySelector('button'), () => console.log('обработчик выполнился!')) // добавит такой обработчик кликов для указанного элемента, который вызовется только один раз и затем удалится
  */
-function once(target, fn) { 
-    var click = new Event('click');
-    target.addEventListener( click, () => {
-        target.removeEventListener( click);
-    })
-    fn();
-// Навешиваем не саму пользовательскую функцию, а обёртку, которая после срабатывания удаляет себя методом removeEventListener и запускает саму функцию. 
+
+function once(target, fn) {
+    var wrap = function wrap() {
+        target.removeEventListener('click', wrap);
+        fn();
+    }
+    
+    target.addEventListener('click', wrap);
 }
 
 export {
