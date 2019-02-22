@@ -1,5 +1,3 @@
-import { node } from "prop-types";
-
 /* ДЗ 4 - работа с DOM */
 
 /*
@@ -132,7 +130,7 @@ function deleteTextNodesRecursive(where) {
         if (child.nodeType === 3) {
             where.removeChild(child); 
             i--; 
-        } else if (child.nodeType === 1) {
+        } else {
             deleteTextNodesRecursive(child);
         }
     }
@@ -162,33 +160,34 @@ function collectDOMStat(root) {
     let nodes = root.childNodes;
 
     let statObject = {
-      tags: {},
-      classes: {},
-      texts: 0
+        tags: {},
+        classes: {},
+        texts: 0
     };
 
     for (let i = 0; i < nodes.length; i++) {
-      if (nodes[i].typeNode === 1) {
-        if (typeof statObject.tags[node[i].tagName] === 'undefined') {
-          statObject.tags[node[i].tagName] = 0;
-        }
-        statObject.tags[node[i].tagName]++;
-      }
-
-      if (nodes[i].typeNode === 3) {
-        statObject.texts++;
-      }
-
-      if (nodes[i].hasAttribute('class')) {
-        for (let j = 0; j < nodes[i].classList.length; j++) {
-          statObject.classes[nodes[i].className[j]]++;
+        if (nodes[i].typeNode === 1) {
+            if (typeof statObject.tags[nodes[i].tagName] === 'undefined') {
+                statObject.tags[nodes[i].tagName] = 0;
+            }
+            statObject.tags[nodes[i].tagName]++;
         }
 
-        if (nodes[i].childNodes.length != 0) {
-          collectDOMStat(nodes[i]);
+        if (nodes[i].typeNode === 3) {
+            statObject.texts++;
         }
-      }
-      return statObject;
+
+        if (nodes[i].hasAttribute('class')) {
+            for (let j = 0; j < nodes[i].classList.length; j++) {
+                statObject.classes[nodes[i].className[j]]++;
+            }
+
+            if (nodes[i].childNodes.length != 0) {
+                collectDOMStat(nodes[i]);
+            }
+        }
+        
+        return statObject;
     }
 }
 
