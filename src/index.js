@@ -160,21 +160,18 @@ function collectDOMStat(root) {
     let nodes = root.childNodes;
 
     let statObject = {
+        texts: 0,
         tags: {},
-        classes: {},
-        texts: 0
+        classes: {}
     };
 
     for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].typeNode === 1) {
-            if (typeof statObject.tags[nodes[i].tagName] === 'undefined') {
-                statObject.tags[nodes[i].tagName] = 0;
-            }
-            statObject.tags[nodes[i].tagName]++;
-        }
-
         if (nodes[i].typeNode === 3) {
             statObject.texts++;
+        }
+
+        if (nodes[i].typeNode === 1) {
+            statObject.tags[nodes[i].tagName]++;
         }
 
         if (nodes[i].hasAttribute('class')) {
@@ -186,7 +183,7 @@ function collectDOMStat(root) {
                 collectDOMStat(nodes[i]);
             }
         }
-        
+
         return statObject;
     }
 }
@@ -224,6 +221,24 @@ function collectDOMStat(root) {
    }
  */
 function observeChildNodes(where, fn) {
+  var targetNode = document.querySelector(where);
+  var mutationStat = {
+    type: 'remove' || 'insert',
+    nodes: undefined
+  }
+  var config = { attributes: true, childList: true, subtree: true };
+
+  var fn = function fn(mutationStat) {
+      for (let i = 0; i < targetNode.length; i++) {
+          mutationStat.nodes = targetNode[i].typeNode;
+          mutationStat.type = mutation.type;
+      }
+  }
+      
+  var observer = new MutationObserver(fn);
+
+  observer.observe(targetNode, config);
+
 }
 
 export {
