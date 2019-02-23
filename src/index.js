@@ -157,7 +157,6 @@ function deleteTextNodesRecursive(where) {
    }
  */
 function collectDOMStat(root) {
-    let nodes = root.childNodes;
 
     let statObject = {
         texts: 0,
@@ -165,27 +164,37 @@ function collectDOMStat(root) {
         classes: {}
     };
 
-    for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].typeNode === 3) {
-            statObject.texts++;
-        }
+    function collectDOMStatRecursive(root, statObject) {
+        let nodes = root.childNodes;
 
-        if (nodes[i].typeNode === 1) {
-            statObject.tags[nodes[i].tagName]++;
-        }
+        for (var node of nodes) {
+            if (node.nodeType === 3) {
+                statObject.texts++;
+            } else if (node.nodeType === 1) {
+                if (typeof statObject.tags[node.tagName] === 'undefined') {
+                    statObject.tags[node.tagName] = 0;
+                }
+                statObject.tags[node.tagName]++;
 
-        if (nodes[i].hasAttribute('class')) {
-            for (let j = 0; j < nodes[i].classList.length; j++) {
-                statObject.classes[nodes[i].className[j]]++;
-            }
+                if (node.hasAttribute('class')) {
+                    for (var nodeClass of node.classList) {
+                        if (typeof statObject.classes[nodeClass] === 'undefined') {
+                            statObject.classes[nodeClass] = 0;
+                        }
+                        statObject.classes[nodeClass]++;
+                    }
+                }
 
-            if (nodes[i].childNodes.length != 0) {
-                collectDOMStat(nodes[i]);
+                if (node.childNodes.length != 0) {
+                    collectDOMStatRecursive(node, statObject);
+                }
             }
         }
 
         return statObject;
     }
+
+    return collectDOMStatRecursive(root, statObject);
 }
 
 /*
@@ -221,24 +230,21 @@ function collectDOMStat(root) {
    }
  */
 function observeChildNodes(where, fn) {
-  var targetNode = document.querySelector(where);
-  var mutationStat = {
-    type: 'remove' || 'insert',
-    nodes: undefined
-  }
-  var config = { attributes: true, childList: true, subtree: true };
 
-  var fn = function fn(mutationStat) {
-      for (let i = 0; i < targetNode.length; i++) {
-          mutationStat.nodes = targetNode[i].typeNode;
-          mutationStat.type = mutation.type;
-      }
-  }
-      
-  var observer = new MutationObserver(fn);
+    var observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutation) {
 
-  observer.observe(targetNode, config);
+            if (mutation.addedNodes.length > 0) {
+                fn({ type: 'insert', nodes: mutation.addedNodes })
+            }
 
+            if (mutation.removedNodes.length > 0) {
+                fn({ type: 'remove', nodes: mutation.removedNodes })
+            }
+        });
+    });
+
+    observer.observe(where, { childList: true, subtree: true })
 }
 
 export {
