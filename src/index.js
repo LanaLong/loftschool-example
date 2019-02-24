@@ -230,25 +230,28 @@ function collectDOMStat(root) {
    }
  */
 
-//////////////////////////////////////////////////////////////////////////////
-///записывай измененные элементы в массив (edited) который и передавай в объект
-///////////////////////////////////////////////////////////////////////////////
-
 function observeChildNodes(where, fn) {
 
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
-            let arrayAdded = mutation.addedNodes;
-            let arrayRemoved = mutation.removedNodes;
-
-          // let arrayAdded.push(mutation.addedNodes);
-          // let arrayRemoved.push(mutation.removedNodes);
 
             if (mutation.addedNodes.length > 0) {
+                let arrayAdded = [];
+
+                for (let el of mutation.addedNodes) {
+                    arrayAdded.push(el);
+                }
+
                 fn({ type: 'insert', nodes: arrayAdded })
             }
 
             if (mutation.removedNodes.length > 0) {
+                let arrayRemoved = [];
+
+                for (let el of mutation.removedNodes) {
+                    arrayRemoved.push(el);
+                }
+              
                 fn({ type: 'remove', nodes: arrayRemoved })
             }
         });
