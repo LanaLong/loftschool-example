@@ -53,16 +53,9 @@ function createDiv() {
    addListeners(newDiv);
  */
 
-////////////////////////////////////////////////////
-// в драг энд дропе
-// в функции старта
-// ты должна давать элементу атрибут драггет
-// так же ты должна высчитать перемещение элемента
-// и через dataTransfer передать в драг энд
-////////////////////////////////////////////////////
-
 function addListeners(target) {
     target.addEventListener('dragstart', handleDragStart, false );
+    target.addEventListener('dragover', handleDragOver, false );
     target.addEventListener('drop', handleDrop, false);
     target.addEventListener('dragend', handleDragEnd, false );
 
@@ -72,8 +65,11 @@ function addListeners(target) {
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.dropEffect = 'move';
         e.target.setAttribute('dragged', 'true'); 
+        var coords = e.target.getBoundingClientRect();
+
+        e.dataTransfer.setData('coordinates', coords.left, coords.top);
     }
-    
+
     function handleDrop(e) {
         if (e.stopPropagation) {
             e.stopPropagation()
@@ -82,8 +78,19 @@ function addListeners(target) {
         return false;
     }
 
+    function handleDragOver(e) {
+        if (e.preventDefault) {
+            e.preventDefault()
+        }
+
+        return false;
+    }
+
     function handleDragEnd(e) {
         e.target.style.opacity = '1';
+        e.tagret.style.top = coords.top + screenY + 'px';
+        e.target.style.left = coords.left + screenX + 'px';
+        e.target.setAttribute('dragged', 'true'); 
     }
 }
 
