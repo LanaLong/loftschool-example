@@ -38,6 +38,7 @@ function createDiv() {
     newDiv.style.backgroundColor = color;
     newDiv.style.top = posx + 'px';
     newDiv.style.left = posy + 'px';
+    newDiv.style.position = 'absolute';
     newDiv.className = 'draggable-div';
     newDiv.setAttribute('draggable', 'true');
 
@@ -88,8 +89,9 @@ function addListeners(target) {
 
     function handleDragEnd(e) {
         e.target.style.opacity = '1';
-        e.tagret.style.top = coords.top + screenY + 'px';
-        e.target.style.left = coords.left + screenX + 'px';
+      var coords = e.target.getBoundingClientRect();
+        e.target.style.top = e.clientX + 'px';
+        e.target.style.left = e.clientY + 'px';
         e.target.setAttribute('dragged', 'true'); 
     }
 }
