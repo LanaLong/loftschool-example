@@ -39,10 +39,8 @@ function createDiv() {
     newDiv.style.top = posx + 'px';
     newDiv.style.left = posy + 'px';
     newDiv.className = 'draggable-div';
-    // newDiv.setProperty = ('draggable', true); // isnt working
-    newDiv.setAttribute = ('draggable', 'true');// isnt working
-    // newDiv.setAttribute = ('draggable', true);// isnt working
-    
+    newDiv.setAttribute('draggable', 'true');
+
     return newDiv;
 }
 
@@ -73,10 +71,7 @@ function addListeners(target) {
 
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.dropEffect = 'move';
-        newDiv.setAttribute = ('draggable', 'true'); // + isnt working
-        // newDiv.setProperty = ('draggable', true); // + isnt working
-        // e.dataTransfer.setProperty = (draggable, 'true'); //+ isnt working
-        e.dataTransfer.setData("text/plain", newDiv.setAttribute);
+        e.target.setAttribute('dragged', 'true'); 
     }
     
     function handleDrop(e) {
