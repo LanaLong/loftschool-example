@@ -58,25 +58,10 @@ function addListeners(target) {
     target.addEventListener('dragstart', handleDragStart, false );
     target.addEventListener('dragover', handleDragOver, false );
     target.addEventListener('drop', handleDrop, false);
-    target.addEventListener('dragend', handleDragEnd, false );
 
     function handleDragStart(e) {
-        e.target.style.opacity = '0.4';
-
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.dropEffect = 'move';
         e.target.setAttribute('dragged', 'true'); 
-        var coords = e.target.getBoundingClientRect();
-
-        e.dataTransfer.setData('coordinates', coords.left, coords.top);
-    }
-
-    function handleDrop(e) {
-        if (e.stopPropagation) {
-            e.stopPropagation()
-        }
-
-        return false;
+        e.dataTransfer.setData('text/plain', e.target.getBoundingClientRect());
     }
 
     function handleDragOver(e) {
@@ -87,12 +72,23 @@ function addListeners(target) {
         return false;
     }
 
-    function handleDragEnd(e) {
-        e.target.style.opacity = '1';
-      var coords = e.target.getBoundingClientRect();
-        e.target.style.top = e.clientX + 'px';
-        e.target.style.left = e.clientY + 'px';
-        e.target.setAttribute('dragged', 'true'); 
+    function handleDrop(e) {
+        var offset = [0, 0];
+        var mousePosition;
+
+        mousePosition = {
+            x: event.clientX,
+            y: event.clientY
+        };
+
+        offset = [
+            e.target.offsetLeft - e.clientX,
+            e.target.offsetTop - e.clientY
+        ];
+
+        e.target.style.left = (mousePosition.x + offset[0]) + 'px';
+        e.target.style.top = (mousePosition.y + offset[1]) + 'px';
+        e.target.setAttribute('dragged', 'false'); 
     }
 }
 
