@@ -229,6 +229,11 @@ function collectDOMStat(root) {
      nodes: [div]
    }
  */
+
+//////////////////////////////////////////////////////////////////////////////
+///записывай измененные элементы в массив (edited) который и передавай в объект
+///////////////////////////////////////////////////////////////////////////////
+
 function observeChildNodes(where, fn) {
 
     var observer = new MutationObserver(function (mutations) {
