@@ -233,13 +233,18 @@ function observeChildNodes(where, fn) {
 
     var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
+            let arrayAdded = mutation.addedNodes;
+            let arrayRemoved = mutation.removedNodes;
+
+          // let arrayAdded.push(mutation.addedNodes);
+          // let arrayRemoved.push(mutation.removedNodes);
 
             if (mutation.addedNodes.length > 0) {
-                fn({ type: 'insert', nodes: mutation.addedNodes })
+                fn({ type: 'insert', nodes: arrayAdded })
             }
 
             if (mutation.removedNodes.length > 0) {
-                fn({ type: 'remove', nodes: mutation.removedNodes })
+                fn({ type: 'remove', nodes: arrayRemoved })
             }
         });
     });
