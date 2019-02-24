@@ -53,43 +53,36 @@ function createDiv() {
    homeworkContainer.appendChild(newDiv);
    addListeners(newDiv);
  */
-
 function addListeners(target) {
-    target.addEventListener('dragstart', handleDragStart, false );
-    target.addEventListener('dragover', handleDragOver, false );
-    target.addEventListener('drop', handleDrop, false);
+    var mousePosition;
+    var offset = [0, 0];
+    var isDown = false;
 
-    function handleDragStart(e) {
-        e.target.setAttribute('dragged', 'true'); 
-        e.dataTransfer.setData('text/plain', e.target.getBoundingClientRect());
-    }
-
-    function handleDragOver(e) {
-        if (e.preventDefault) {
-            e.preventDefault()
-        }
-
-        return false;
-    }
-
-    function handleDrop(e) {
-        var offset = [0, 0];
-        var mousePosition;
-
-        mousePosition = {
-            x: event.clientX,
-            y: event.clientY
-        };
-
+    target.addEventListener('mousedown', function (e) {
+        isDown = true;
         offset = [
-            e.target.offsetLeft - e.clientX,
-            e.target.offsetTop - e.clientY
+            target.offsetLeft - e.clientX,
+            target.offsetTop - e.clientY
         ];
+    }, true);
 
-        e.target.style.left = (mousePosition.x + offset[0]) + 'px';
-        e.target.style.top = (mousePosition.y + offset[1]) + 'px';
-        e.target.setAttribute('dragged', 'false'); 
-    }
+    document.addEventListener('mouseup', function () {
+        isDown = false;
+    }, true);
+
+    document.addEventListener('mousemove', function (event) {
+        event.preventDefault();
+        if (isDown) {
+            mousePosition = {
+
+                x: event.clientX,
+                y: event.clientY
+
+            };
+            target.style.left = (mousePosition.x + offset[0]) + 'px';
+            target.style.top = (mousePosition.y + offset[1]) + 'px';
+        }
+    }, true);
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
