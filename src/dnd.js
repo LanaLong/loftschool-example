@@ -39,8 +39,10 @@ function createDiv() {
     newDiv.style.top = posx + 'px';
     newDiv.style.left = posy + 'px';
     newDiv.className = 'draggable-div';
-    newDiv.setProperty = ('draggable', true);
-
+    // newDiv.setProperty = ('draggable', true); // isnt working
+    newDiv.setAttribute = ('draggable', 'true');// isnt working
+    // newDiv.setAttribute = ('draggable', true);// isnt working
+    
     return newDiv;
 }
 
@@ -52,6 +54,15 @@ function createDiv() {
    homeworkContainer.appendChild(newDiv);
    addListeners(newDiv);
  */
+
+////////////////////////////////////////////////////
+// в драг энд дропе
+// в функции старта
+// ты должна давать элементу атрибут драггет
+// так же ты должна высчитать перемещение элемента
+// и через dataTransfer передать в драг энд
+////////////////////////////////////////////////////
+
 function addListeners(target) {
     target.addEventListener('dragstart', handleDragStart, false );
     target.addEventListener('drop', handleDrop, false);
@@ -62,6 +73,10 @@ function addListeners(target) {
 
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.dropEffect = 'move';
+        newDiv.setAttribute = ('draggable', 'true'); // + isnt working
+        // newDiv.setProperty = ('draggable', true); // + isnt working
+        // e.dataTransfer.setProperty = (draggable, 'true'); //+ isnt working
+        e.dataTransfer.setData("text/plain", newDiv.setAttribute);
     }
     
     function handleDrop(e) {
