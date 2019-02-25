@@ -1,0 +1,104 @@
+/* Задание со звездочкой */
+
+/*
+ Создайте страницу с кнопкой.
+ При нажатии на кнопку должен создаваться div со случайными размерами, цветом и позицией на экране
+ Необходимо предоставить возможность перетаскивать созданные div при помощи drag and drop
+ Запрещено использовать сторонние библиотеки. Разрешено пользоваться только тем, что встроено в браузер
+ */
+
+/*
+ homeworkContainer - это контейнер для всех ваших домашних заданий
+ Если вы создаете новые html-элементы и добавляете их на страницу, то дoбавляйте их только в этот контейнер
+
+ Пример:
+   const newDiv = document.createElement('div');
+   homeworkContainer.appendChild(newDiv);
+ */
+const homeworkContainer = document.querySelector('#homework-container');
+
+/*
+ Функция должна создавать и возвращать новый div с классом draggable-div и случайными размерами/цветом/позицией
+ Функция должна только создавать элемент и задaвать ему случайные размер/позицию/цвет
+ Функция НЕ должна добавлять элемент на страницу. На страницу элемент добавляется отдельно
+
+ Пример:
+   const newDiv = createDiv();
+   homeworkContainer.appendChild(newDiv);
+ */
+function createDiv() {
+    var newDiv = document.createElement('div');
+    var divsize = ((Math.random() * 100) + 50).toFixed();
+    var color = '#' + Math.round(0xffffff * Math.random()).toString(16);
+    var posx = (Math.random() * (document.body.clientWidth - divsize)).toFixed();
+    var posy = (Math.random() * (document.body.clientHeight - divsize)).toFixed();
+
+    newDiv.style.width = divsize + 'px';
+    newDiv.style.height = divsize + 'px';
+    newDiv.style.backgroundColor = color;
+    newDiv.style.top = posx + 'px';
+    newDiv.style.left = posy + 'px';
+    newDiv.style.position = 'absolute';
+    newDiv.className = 'draggable-div';
+    newDiv.setAttribute('draggable', 'true');
+
+    return newDiv;
+}
+
+/*
+ Функция должна добавлять обработчики событий для перетаскивания элемента при помощи drag and drop
+
+ Пример:
+   const newDiv = createDiv();
+   homeworkContainer.appendChild(newDiv);
+   addListeners(newDiv);
+ */
+function addListeners(target) {
+    var mousePosition;
+    var offset = [0, 0];
+    var isDown = false;
+
+    target.addEventListener('mousedown', function (e) {
+        isDown = true;
+        offset = [
+            target.offsetLeft - e.clientX,
+            target.offsetTop - e.clientY
+        ];
+    }, true);
+
+    document.addEventListener('mouseup', function () {
+        isDown = false;
+    }, true);
+
+    document.addEventListener('mousemove', function (event) {
+        event.preventDefault();
+        if (isDown) {
+            mousePosition = {
+
+                x: event.clientX,
+                y: event.clientY
+
+            };
+            target.style.left = (mousePosition.x + offset[0]) + 'px';
+            target.style.top = (mousePosition.y + offset[1]) + 'px';
+        }
+    }, true);
+}
+
+let addDivButton = homeworkContainer.querySelector('#addDiv');
+
+addDivButton.addEventListener('click', function() {
+    // создать новый div
+    const div = createDiv();
+
+    // добавить на страницу
+    homeworkContainer.appendChild(div);
+    // назначить обработчики событий мыши для реализации D&D
+    addListeners(div);
+    // можно не назначать обработчики событий каждому div в отдельности, а использовать делегирование
+    // или использовать HTML5 D&D - https://www.html5rocks.com/ru/tutorials/dnd/basics/
+});
+
+export {
+    createDiv
+};
