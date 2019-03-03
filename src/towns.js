@@ -79,7 +79,7 @@ loadTowns()
         filterBlock.style.display = 'block';
     })
     .catch(() => {
-        homeworkContainer.innerHTML = 'Не удалось загрузить города';
+        document.getElementById('loading-block').textContent = 'Не удалось загрузить';
         infoBlock.style.display = 'block';
     });
 
