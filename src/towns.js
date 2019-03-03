@@ -42,7 +42,7 @@ function loadTowns() {
   return fetch(url)
     .then(response => {
       if (response.status >= 400) {
-          return Promise.reject();
+          return Promise.reject('Не удалось загрузить города');
       }
       return response.json();
     })
@@ -74,9 +74,47 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
+let townsData;
+
+loadTowns().then((data) => {
+  townsData = data;
+  loadingBlock.style.display = 'none';
+  filterBlock.style.display = 'block';
+})
+  .catch((err) => {
+    homeworkContainer.innerHTML = `${err}`;
+
+    let buttonRepeate = document.createElement('button');
+
 filterInput.addEventListener('keyup', function() {
     // это обработчик нажатия клавиш в текстовом поле
+    buttonRepeate.innerHTML = 'Повторить';
+    homeworkContainer.appendChild(buttonRepeate);
+    buttonRepeate.style.background = '#333';
+    buttonRepeate.style.color = '#fff';
+    buttonRepeate.style.fontSize = '16px';
+    buttonRepeate.style.display = 'block';
+    buttonRepeate.style.padding = '8px';
+
+    buttonRepeate.addEventListener('click', () => loadTowns());
 });
+
+    let inputVal = filterInput.value;
+
+    filterResult.innerHTML = '';
+
+    for (let i = 0; i < townsData.length; i++) {
+      let town = townsData[i].name;
+
+        if (town !== '' && inputVal !== '' && isMatching(town, inputVal)) {
+          let townElement = document.createElement('p');
+
+          townElement.innerHTML = town;
+          filterResult.appendChild(townP);
+        }
+      }
+
+    });
 
 export {
     loadTowns,
