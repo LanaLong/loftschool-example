@@ -8,20 +8,9 @@
  Пример:
    delayPromise(3) // вернет promise, который будет разрешен через 3 секунды
  */
-/*
-/////////////////////// version 1
-function delayPromise(seconds) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, seconds * 1000)
-  });
-}
-*/
 
-///////////////////// +refucktoring
 function delayPromise(seconds) {
-  return new Promise(resolve => setTimeout(resolve, seconds * 1000))
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 }
 
 /*
@@ -37,8 +26,13 @@ function delayPromise(seconds) {
  Пример:
    loadAndSortTowns().then(towns => console.log(towns)) // должна вывести в консоль отсортированный массив городов
  */
+
 function loadAndSortTowns() {
-      
+    var url = ('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
+
+    return fetch(url)
+        .then(response => response.json())
+        .then(cities => cities.sort((a, b) => a.name.localeCompare(b.name)));
 }
 
 export {
