@@ -37,6 +37,9 @@ const homeworkContainer = document.querySelector('#homework-container');
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
 function loadTowns() {
+    hiddenBlocks();
+    loadingBlock.style.display = 'block';
+
     var url = ('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
 
     return fetch(url)
@@ -49,6 +52,23 @@ function loadTowns() {
         })
         .then(cities => cities.sort((a, b) => a.name.localeCompare(b.name)));
 }
+
+function hiddenBlocks() {
+    loadingBlock.style.display = 'none';
+    filterBlock.style.display = 'none';
+    infoBlock.style.display = 'none';
+}
+
+// let buttonRepeate = document.createElement('button');
+
+// buttonRepeate.innerHTML = 'Повторить';
+// infoBlock.appendChild(buttonRepeate);
+// buttonRepeate.style.background = '#333';
+// buttonRepeate.style.color = '#fff';
+// buttonRepeate.style.fontSize = '16px';
+// buttonRepeate.style.display = 'block';
+// buttonRepeate.style.padding = '8px 24px';
+// buttonRepeate.style.marginTop = '30px';
 
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full.
@@ -73,8 +93,13 @@ const loadingBlock = homeworkContainer.querySelector('#loading-block');
 const filterBlock = homeworkContainer.querySelector('#filter-block');
 /* Текстовое поле для поиска по городам */
 const filterInput = homeworkContainer.querySelector('#filter-input');
-/* Блок с результатами поиска */
+/* Блок с результатами поиска */ 
 const filterResult = homeworkContainer.querySelector('#filter-result');
+/* Блок с информацией о загрузке */
+const infoBlock = homeworkContainer.querySelector('#info-block');
+const buttonRepeate = homeworkContainer.querySelector('button');
+
+buttonRepeate.addEventListener('click', () => loadTowns());
 
 let townsData;
 
@@ -86,19 +111,8 @@ loadTowns()
     })
     .catch((err) => {
         homeworkContainer.innerHTML = `${err}`;
+        infoBlock.style.display = 'block';
     });
-
-let buttonRepeate = document.createElement('button');
-
-buttonRepeate.innerHTML = 'Повторить';
-homeworkContainer.appendChild(buttonRepeate);
-buttonRepeate.style.background = '#333';
-buttonRepeate.style.color = '#fff';
-buttonRepeate.style.fontSize = '16px';
-buttonRepeate.style.display = 'block';
-buttonRepeate.style.padding = '8px';
-
-buttonRepeate.addEventListener('click', () => loadTowns());
 
 filterInput.addEventListener('keyup', function() {
     let inputVal = filterInput.value;
