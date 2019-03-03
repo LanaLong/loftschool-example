@@ -1,3 +1,4 @@
+import { loadAndSortTowns as loadTowns } from '../src/index.js'; 
 /*
  Страница должна предварительно загрузить список городов из
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
@@ -36,39 +37,6 @@ const homeworkContainer = document.querySelector('#homework-container');
  Массив городов можно получить, отправив асинхронный запрос по адресу:
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
-function loadTowns() {
-    hiddenBlocks();
-    loadingBlock.style.display = 'block';
-
-    var url = ('https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
-
-    return fetch(url)
-        .then(response => {
-            if (response.status >= 400) {
-                return Promise.reject('Не удалось загрузить города');
-            }
-            
-            return response.json();
-        })
-        .then(cities => cities.sort((a, b) => a.name.localeCompare(b.name)));
-}
-
-function hiddenBlocks() {
-    loadingBlock.style.display = 'none';
-    filterBlock.style.display = 'none';
-    infoBlock.style.display = 'none';
-}
-
-// let buttonRepeate = document.createElement('button');
-
-// buttonRepeate.innerHTML = 'Повторить';
-// infoBlock.appendChild(buttonRepeate);
-// buttonRepeate.style.background = '#333';
-// buttonRepeate.style.color = '#fff';
-// buttonRepeate.style.fontSize = '16px';
-// buttonRepeate.style.display = 'block';
-// buttonRepeate.style.padding = '8px 24px';
-// buttonRepeate.style.marginTop = '30px';
 
 /*
  Функция должна проверять встречается ли подстрока chunk в строке full.
@@ -107,11 +75,11 @@ loadTowns()
     .then((data) => {
         townsData = data;
         loadingBlock.style.display = 'none';
+        infoBlock.style.display = 'none';
         filterBlock.style.display = 'block';
     })
     .catch((err) => {
-        homeworkContainer.innerHTML = `Не удалось загрузить города.`;
-        hiddenBlocks();
+        homeworkContainer.innerHTML = `Не удалось загрузить города`;
         infoBlock.style.display = 'block';
     });
 
