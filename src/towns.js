@@ -110,7 +110,8 @@ loadTowns()
         filterBlock.style.display = 'block';
     })
     .catch((err) => {
-        homeworkContainer.innerHTML = `${err}`;
+        homeworkContainer.innerHTML = `Не удалось загрузить города.`;
+        hiddenBlocks();
         infoBlock.style.display = 'block';
     });
 
