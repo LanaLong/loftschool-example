@@ -45,7 +45,13 @@ if (!html.length || !files['.hbs'].find(file => file.name === 'index')) {
 }
 
 module.exports = {
-    entry: entries,
+    entry: {
+        main: './src/index.js',
+        towns: './src/towns.js'
+    },
+    devServer: {
+        index: 'towns.html'
+    },
     output: {
         filename: '[name].[hash].js',
         path: path.resolve('dist')
