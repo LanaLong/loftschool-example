@@ -44,58 +44,57 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 function getCookies() {
-  return document.cookie
-    .split('; ')
-    .filter(Boolean)
-    .map(cookie => cookie.match(/^([^=]+)=(.+)/))
-    .reduce((obj, [, name, value]) => {
-      obj[name] = value;
+    return document.cookie
+        .split('; ')
+        .filter(Boolean)
+        .map(cookie => cookie.match(/^([^=]+)=(.+)/))
+        .reduce((obj, [, name, value]) => {
+            obj[name] = value;
 
-      return obj;
-    }, {});
+            return obj;
+        }, {});
 }
 
 // matching function
 function isMatch(full, chunk) {
-  if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
-    return true;
-  } else {
-    return false;
-  }
+    if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
+        return true;
+    } 
 }
 
 renderTable();
 
-//delete cookie
+// delete cookie
 listTable.addEventListener('click', function (e) {
-  // console.log(e.target);
-  if (e.target.dataset.key) {
-    document.cookie = e.target.dataset.key + `=;expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
-  }
-  renderTable();
+    // console.log(e.target);
+    if (e.target.dataset.key) {
+        document.cookie = e.target.dataset.key + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+    renderTable();
 });
 
 // handle search key
 filterNameInput.addEventListener('keyup', function () {
-  renderTable();
+    renderTable();
 });
 
 // add cookie
 addButton.addEventListener('click', () => {
-  document.cookie = `${addNameInput.value} = ${addValueInput.value}`;
-  renderTable();
+    document.cookie = `${addNameInput.value} = ${addValueInput.value}`;
+    renderTable();
 
-  addNameInput.value = '';
-  addValueInput.value = '';
+    addNameInput.value = '';
+    addValueInput.value = '';
 });
 
 // render
 function renderTable() {
-  const cookie_obj = getCookies();
-  listTable.innerHTML = '';
-  for (let key in cookie_obj) {
-    if (!(isMatch(key, filterNameInput.value) || isMatch(cookie_obj[key], filterNameInput.value))) continue;
-    listTable.innerHTML += `<tr><td class="first_td">${key}</td><td>${cookie_obj[key]}</td><td><button class="del" 
+    const cookieObj = getCookies();
+
+    listTable.innerHTML = '';
+    for (let key in cookieObj) {
+        if (!(isMatch(key, filterNameInput.value) || isMatch(cookieObj[key], filterNameInput.value))) continue;
+        listTable.innerHTML += `<tr><td class="first_td">${key}</td><td>${cookieObj[key]}</td><td><button class="del" 
         data-key="${key}">Удалить</button></td></tr>`;
-  }
+    }
 }
