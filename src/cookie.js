@@ -83,8 +83,8 @@ addButton.addEventListener('click', () => {
     document.cookie = `${addNameInput.value} = ${addValueInput.value}`;
     renderTable();
 
-    addNameInput.value = '';
-    addValueInput.value = '';
+    // addNameInput.value = '';
+    // addValueInput.value = '';
 });
 
 // render
@@ -93,7 +93,9 @@ function renderTable() {
 
     listTable.innerHTML = '';
     for (let key in cookieObj) {
-        if (!(isMatch(key, filterNameInput.value) || isMatch(cookieObj[key], filterNameInput.value))) continue;
+        if (!(isMatch(key, filterNameInput.value) || isMatch(cookieObj[key], filterNameInput.value))) {
+            continue;
+        }
         listTable.innerHTML += `<tr><td class="first_td">${key}</td><td>${cookieObj[key]}</td><td><button class="del" 
         data-key="${key}">Удалить</button></td></tr>`;
     }
