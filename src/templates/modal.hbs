@@ -7,19 +7,20 @@
   </div>
 
   <div class="response-list">
-    <div class="response-item"><strong>Lana</strong> Шоколадница 05.02.2019 Очень хорошее место!</div>
-    <div class="response-item"><strong>Сергей Мелюков</strong> Красный куб 12. 12.2018 Ужасное место! Кругом зомби!!!</div>
+    <div class="response-item"><span>Lana</span> Шоколадница 05.02.2019 Очень хорошее место!</div>
+    <div class="response-item"><span>Сергей Мелюков</span> Красный куб 12.12.2018 Ужасное место! Кругом зомби!!!</div>
   </div>
-  
-<hr class="line">
-  <form action="" class="response-form">
-    
-    <div class="form-group>
-    <p><input type="text" placeholder="Ваше имя"></p>
-    <p></p><input type="text" placeholder="Укажите место"></p>
-    <p></p><textarea class="form-control" id="response-text" type="text" placeholder="Поделитесь впечатлениями" rows="3"></textarea></p>
-    <p><input type="submit" value="Добавить"></p>
 
+  <hr class="line">
+  <form action="" id="responseForm" class="response-form">
+    <label>Ваш отзыв</label>
+    
+    <div class="form-group">
+    <input type="text" id="inputName" placeholder="Ваше имя"><br>
+    <input type="text" id="inputPlace" placeholder="Укажите место"><br>
+    <textarea id="responseText" type="text" class="form-control" placeholder="Поделитесь впечатлениями" cols="35" rows="4"></textarea><br>
+    <button type="submit" value="Добавить">Добавить</button>
     </div>
+
   </form>
 </div>
