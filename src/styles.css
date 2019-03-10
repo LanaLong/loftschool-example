@@ -1,0 +1,58 @@
+body {
+  font-family: 'Fira Sans', sans-serif;
+}
+
+#map {
+  position: realtive;
+}
+
+#modal {
+  min-width: 378px;
+  min-height: 528px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1;
+  border-radius: 8px;
+}
+.header {
+  background-color: #EF8B6B;
+  line-height: 2; 
+  color: #fff;
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.header span {
+  color: #fff;
+  font-size: 13px;
+  padding-left: 5px;
+}
+
+.icon1 {
+  /* width: 11px;
+  height: 14px; */
+}
+
+.icon2 {
+text-align: right;
+position: absolute;
+right: 22px;
+top: 25px;
+}
+
+.response-list, .response-form {
+  padding: 23px;
+}
+
+.response-form {
+  display: flex;
+  flex: column;
+}
+
+input, .line {
+  color: #C4C4C4;
+}
+
+input {
+  border-radius: 17px;
+}
